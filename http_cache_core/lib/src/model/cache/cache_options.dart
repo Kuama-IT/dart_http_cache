@@ -55,6 +55,9 @@ class CacheOptions {
   /// allow POST method request to be cached.
   final bool allowPostMethod;
 
+  /// Used to read the "cache-control" value from a different header name
+  final String cacheControlHeader;
+
   // UUID helper to mark requests.
   static final _uuid = Uuid();
 
@@ -68,6 +71,7 @@ class CacheOptions {
     this.cipher,
     this.allowPostMethod = false,
     required this.store,
+    this.cacheControlHeader = 'cache-control',
   });
 
   /// Default cache key builder
@@ -89,6 +93,7 @@ class CacheOptions {
     CacheStore? store,
     CacheCipher? cipher,
     bool? allowPostMethod,
+    String? cacheControlHeader,
   }) {
     return CacheOptions(
       policy: policy ?? this.policy,
@@ -101,6 +106,7 @@ class CacheOptions {
       store: store ?? this.store,
       cipher: cipher ?? this.cipher,
       allowPostMethod: allowPostMethod ?? this.allowPostMethod,
+      cacheControlHeader: cacheControlHeader ?? this.cacheControlHeader,
     );
   }
 }

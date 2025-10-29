@@ -20,7 +20,8 @@ extension ResponseExtension on Response {
     );
 
     return CacheResponse(
-      cacheControl: CacheControl.fromHeader(headers[cacheControlHeader]),
+      cacheControl:
+          CacheControl.fromHeader(headers[options.cacheControlHeader]),
       content: await options.cipher?.encryptContent(content) ?? content,
       date: date,
       eTag: headers[etagHeader]?.join(','),
@@ -42,13 +43,13 @@ extension ResponseExtension on Response {
   /// Update cache headers on 304
   ///
   /// https://tools.ietf.org/html/rfc7232#section-4.1
-  void updateCacheHeaders(Response<dynamic> response) {
+  void updateCacheHeaders(CacheOptions options, Response<dynamic> response) {
     void updateNonNullHeader(String headerKey) {
       final values = response.headers[headerKey];
       if (values != null) headers.map[headerKey] = values;
     }
 
-    updateNonNullHeader(cacheControlHeader);
+    updateNonNullHeader(options.cacheControlHeader);
     updateNonNullHeader(dateHeader);
     updateNonNullHeader(etagHeader);
     updateNonNullHeader(lastModifiedHeader);

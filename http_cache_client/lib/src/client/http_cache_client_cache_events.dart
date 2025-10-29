@@ -76,7 +76,7 @@ extension _CacheClientEvents on CacheClient {
       // Update cache response with response header values
       final cacheResponse = await _loadResponse(request);
       if (cacheResponse != null) {
-        response = cacheResponse..updateCacheHeaders(response);
+        response = cacheResponse..updateCacheHeaders(_options, response);
       }
     }
 

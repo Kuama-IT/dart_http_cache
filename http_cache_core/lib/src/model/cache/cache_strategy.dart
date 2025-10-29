@@ -74,7 +74,7 @@ class CacheStrategyFactory {
     var cache = cacheResponse;
 
     final rqCacheCtrl = CacheControl.fromString(
-      request.headers[cacheControlHeader],
+      request.headers[cacheOptions.cacheControlHeader],
     );
 
     if (cacheResponseBuilder != null && resp != null && cache == null) {

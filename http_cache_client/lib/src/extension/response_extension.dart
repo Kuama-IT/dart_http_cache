@@ -16,7 +16,7 @@ extension ResponseExtension on http.Response {
 
     return CacheResponse(
       cacheControl: CacheControl.fromHeader(
-        headersSplitValues[cacheControlHeader],
+        headersSplitValues[options.cacheControlHeader],
       ),
       content: await options.cipher?.encryptContent(bodyBytes) ?? bodyBytes,
       date: respDate,
@@ -39,13 +39,13 @@ extension ResponseExtension on http.Response {
   /// Update cache headers on 304
   ///
   /// https://tools.ietf.org/html/rfc7232#section-4.1
-  void updateCacheHeaders(http.Response response) {
+  void updateCacheHeaders(CacheOptions options, http.Response response) {
     void updateNonNullHeader(String headerKey) {
       final value = response.headers[headerKey];
       if (value != null) headers[headerKey] = value;
     }
 
-    updateNonNullHeader(cacheControlHeader);
+    updateNonNullHeader(options.cacheControlHeader);
     updateNonNullHeader(dateHeader);
     updateNonNullHeader(etagHeader);
     updateNonNullHeader(lastModifiedHeader);

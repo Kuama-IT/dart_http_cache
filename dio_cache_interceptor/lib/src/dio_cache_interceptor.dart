@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/src/model/dio_base_response.dart';
 import 'package:dio_cache_interceptor/src/extension/cache_response_extension.dart';
 import 'package:dio_cache_interceptor/src/extension/request_extension.dart';
+import 'package:dio_cache_interceptor/src/model/dio_base_response.dart';
 import 'package:http_cache_core/http_cache_core.dart';
 
-import 'model/dio_base_request.dart';
 import 'extension/response_extension.dart';
+import 'model/dio_base_request.dart';
 
 part 'dio_cache_interceptor_cache_utils.dart';
 
@@ -109,7 +109,7 @@ class DioCacheInterceptor extends Interceptor {
       // Update cache response with response header values
       final cacheResponse = await _loadResponse(response.requestOptions);
       if (cacheResponse != null) {
-        response = cacheResponse..updateCacheHeaders(response);
+        response = cacheResponse..updateCacheHeaders(cacheOptions, response);
       }
     }
 
@@ -141,7 +141,7 @@ class DioCacheInterceptor extends Interceptor {
       if (err.response != null && cacheResponse != null) {
         // Update cache response with response header values
         await _saveResponse(
-          cacheResponse..updateCacheHeaders(err.response!),
+          cacheResponse..updateCacheHeaders(cacheOptions, err.response!),
           cacheOptions,
           statusCode: err.response?.statusCode,
         );
